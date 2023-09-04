@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { useRoute, useLocation } from "wouter";
 import './styles.css';
-import App from "./app";
+import { App } from "./app";
 
 function Root() {
     const [, params] = useRoute('/item/:id')
