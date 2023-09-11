@@ -13,7 +13,7 @@ export function SpinningHead(props) {
   const ref = useRef()
 
   useFrame((state, dt) => {
-    ref.current.rotation.z += 1 * dt
+    ref.current.rotation.z += .2 * dt
   })
 
   return (
@@ -25,7 +25,7 @@ export function SpinningHead(props) {
         geometry={nodes.INGAME_BASE.geometry}
         // material={materials.defaultMat}  
       >
-        <MeshRefractionMaterial envMap={texture} bounces={4} abberationStrength={0.01} ior={2.4} fresnel={1} color={'white'} fastChroma={true} side={THREE.DoubleSide}/>
+        <MeshRefractionMaterial envMap={texture} bounces={4} abberationStrength={.1} ior={2.4} fresnel={1} color={'white'} fastChroma={true} side={THREE.DoubleSide}/>
       </mesh>
     </group>
   );

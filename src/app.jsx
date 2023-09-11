@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { useEffect, useRef, useState } from 'react'
 import { Canvas, extend, useFrame, useThree } from '@react-three/fiber'
-import { useCursor, MeshPortalMaterial, CameraControls, Gltf, Text, Stats, Grid, TorusKnot } from '@react-three/drei'
+import { useCursor, MeshPortalMaterial, CameraControls, Gltf, Text, Stats, Grid, TorusKnot, Environment } from '@react-three/drei'
 import { useRoute, useLocation } from 'wouter'
 import { easing, geometry } from 'maath'
 import { suspend } from 'suspend-react'
@@ -17,10 +17,11 @@ extend(geometry)
 
 export const App = () => (
   <Canvas camera={{ fov: 75, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix="client">
-    <color attach="background" args={['#f0f0f0']} />
+    <Environment preset='night' background/>
+    {/* <color attach="background" args={['#f0f0f0']} /> */}
     <Frame id="01" name={`pick\nles`} author="Omar Faruq Tawsif" bg="#e4cdac" position={[0, 0, 2]} rotation={[0, 0, 0]}>
       {/* <Gltf src="pickles_3d_version_of_hyuna_lees_illustration-transformed.glb" scale={8} position={[0, -0.7, -2]} /> */}
-      <Diamond position={[0,0,-2]} scale={[.5,.5,.5]}/>
+      <Diamond position={[0,0,-2]} scale={[.5,.5,.5]} envMap={}/>
     </Frame>
     <Frame id="02" name="tea" author="Omar Faruq Tawsif" position={[2, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
       {/* <Gltf src="fiesta_tea-transformed.glb" position={[0, -2, -3]} /> */}
@@ -32,11 +33,10 @@ export const App = () => (
     <Frame id="04" name="still" author="Omar Faruq Tawsif" bg="#d1d1ca" position={[-2, 0, 0]} rotation={[0, (3 * Math.PI) / 2, 0]}>
       {/* <Gltf src="still_life_based_on_heathers_artwork-transformed.glb" scale={2} position={[0, -0.8, -4]} /> */}
     </Frame>
-    <SpinningHead position={[0,2,0]} rotation={[-Math.PI / 2, 0, 0]}/>
-    <Rig />
-    {/* <Stats /> */}
-    <Perf position="bottom-right" />
+    <SpinningHead position={[0,2,0]} rotation={[-Math.PI / 2, 0, 0]} scale={[2,2,2]}/>
     <Grid infiniteGrid={true} position={[0,-1,0]}/>
+    <Rig />
+    <Perf position="bottom-right" />
   </Canvas>
 )
 
