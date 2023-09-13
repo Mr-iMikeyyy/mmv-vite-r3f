@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { useEffect, useRef, useState } from 'react'
 import { Canvas, extend, useFrame, useThree } from '@react-three/fiber'
-import { useCursor, MeshPortalMaterial, CameraControls, Gltf, Text, Stats, Grid, TorusKnot, Environment } from '@react-three/drei'
+import { useCursor, MeshPortalMaterial, CameraControls, Gltf, Text, Stats, Grid, TorusKnot, Environment, Circle } from '@react-three/drei'
 import { useRoute, useLocation } from 'wouter'
 import { easing, geometry } from 'maath'
 import { suspend } from 'suspend-react'
@@ -19,6 +19,7 @@ extend(geometry)
 export const App = () => (
   <Canvas camera={{ fov: 75, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix="client">
     <Environment preset='night' background/>
+    <Circle position={[0,-1,0]} rotation={[-Math.PI / 2, 0,0]} scale={100}/>
     {/* <color attach="background" args={['#f0f0f0']} /> */}
     <Door position={[0,0,1]}/>
     <Frame id="01" name={`pick\nles`} author="Omar Faruq Tawsif" bg="#e4cdac" position={[0, 0, 2]} rotation={[0, 0, 0]}>
@@ -82,9 +83,9 @@ function Rig({ position = new THREE.Vector3(0, 0, 5), focus = new THREE.Vector3(
     } 
     controls?.setLookAt(...position.toArray(), ...focus.toArray(), true)
   })
-  useEffect(() => {
-    console.log(controls._camera.rotation._y)
-  })
+  // useEffect(() => {
+  //   console.log(controls._camera.rotation._y)
+  // })
   // useFrame((state) => console.log(state.camera.rotation))
   // useFrame((state, delta) => {
   //   easing.damp3(state.camera.position, [-1*(-1 + (state.pointer.x * state.viewport.width) / 20), ((1 + state.pointer.y) / 2) -.40, 1.5], 0.5, delta)
