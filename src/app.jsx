@@ -8,6 +8,7 @@ import { suspend } from 'suspend-react'
 import { Diamond } from './components/diamond'
 import { Perf } from 'r3f-perf'
 import { SpinningHead } from './components/spinningHead'
+import { Door } from './components/door'
 
 extend(geometry)
 // const regular = import('@pmndrs/assets/fonts/inter_regular.woff')
@@ -19,9 +20,10 @@ export const App = () => (
   <Canvas camera={{ fov: 75, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix="client">
     <Environment preset='night' background/>
     {/* <color attach="background" args={['#f0f0f0']} /> */}
+    <Door position={[0,0,1]}/>
     <Frame id="01" name={`pick\nles`} author="Omar Faruq Tawsif" bg="#e4cdac" position={[0, 0, 2]} rotation={[0, 0, 0]}>
       {/* <Gltf src="pickles_3d_version_of_hyuna_lees_illustration-transformed.glb" scale={8} position={[0, -0.7, -2]} /> */}
-      <Diamond position={[0,0,-2]} scale={[.5,.5,.5]} envMap={}/>
+      <Diamond position={[0,0,-2]} scale={[.5,.5,.5]} />
     </Frame>
     <Frame id="02" name="tea" author="Omar Faruq Tawsif" position={[2, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
       {/* <Gltf src="fiesta_tea-transformed.glb" position={[0, -2, -3]} /> */}
@@ -80,6 +82,10 @@ function Rig({ position = new THREE.Vector3(0, 0, 5), focus = new THREE.Vector3(
     } 
     controls?.setLookAt(...position.toArray(), ...focus.toArray(), true)
   })
+  useEffect(() => {
+    console.log(controls._camera.rotation._y)
+  })
+  // useFrame((state) => console.log(state.camera.rotation))
   // useFrame((state, delta) => {
   //   easing.damp3(state.camera.position, [-1*(-1 + (state.pointer.x * state.viewport.width) / 20), ((1 + state.pointer.y) / 2) -.40, 1.5], 0.5, delta)
   //   state.camera.lookAt(0, 0, 0)
