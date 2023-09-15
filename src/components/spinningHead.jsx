@@ -1,14 +1,16 @@
 import * as THREE from "three"
-import React, { useRef } from "react";
-import { useLoader, useFrame } from "@react-three/fiber";
+import React, { useEffect, useRef } from "react";
+import { useLoader, useFrame, useThree } from "@react-three/fiber";
 import { MeshRefractionMaterial, useGLTF } from "@react-three/drei";
 import { RGBELoader } from "three-stdlib";
+import { suspend } from "suspend-react";
+
 
 export function SpinningHead(props) {
 
-  const { nodes, materials } = useGLTF("/models/head.glb");
+  const { nodes } = useGLTF("/models/head.glb");
 
-  const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
+  const texture = useLoader(RGBELoader, "/hdrs/kloofendal_43d_clear_puresky_1k.hdr")
 
   const ref = useRef()
 
@@ -22,10 +24,9 @@ export function SpinningHead(props) {
         ref={ref}
         castShadow
         receiveShadow
-        geometry={nodes.INGAME_BASE.geometry}
-        // material={materials.defaultMat}  
+        geometry={nodes.INGAME_BASE.geometry} 
       >
-        <MeshRefractionMaterial envMap={texture} bounces={4} abberationStrength={.1} ior={2.4} fresnel={1} color={'white'} fastChroma={true} side={THREE.DoubleSide}/>
+        <MeshRefractionMaterial envMap={texture} bounces={2} aberrationStrength={.5} ior={2.4} fresnel={1} color={'white'} fastChroma={true} side={THREE.DoubleSide}/>
       </mesh>
     </group>
   );

@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, extend, useFrame, useLoader, useThree } from '@react-three/fiber'
-import { useCursor, MeshPortalMaterial, CameraControls, Gltf, Text, Stats, Grid, TorusKnot, Environment, Circle } from '@react-three/drei'
+import { useCursor, MeshPortalMaterial, CameraControls, Gltf, Text, Stats, Grid, TorusKnot, Environment, Circle, useTexture, Loader, MeshReflectorMaterial } from '@react-three/drei'
 import { useRoute, useLocation } from 'wouter'
 import { easing, geometry } from 'maath'
 import { suspend } from 'suspend-react'
@@ -19,33 +19,53 @@ extend(geometry)
 
 
 
+
 export const App = () => (
-  <Canvas camera={{ fov: 75, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix="client">
-    <Suspense fallback={<div>...loading</div>} />
-      <Environment files={"/hdrs/kloofendal_43d_clear_puresky_1k.hdr"} background/>
-      <Circle position={[0,-1,0]} rotation={[-Math.PI / 2, 0,0]} scale={100}/>
-      {/* <color attach="background" args={['#f0f0f0']} /> */}
-      <Door position={[0,0,1]}/>
-      <Frame id="01" name={`pick\nles`} author="Omar Faruq Tawsif" bg="#e4cdac" position={[0, 0, 2]} rotation={[0, 0, 0]}>
-        {/* <Gltf src="pickles_3d_version_of_hyuna_lees_illustration-transformed.glb" scale={8} position={[0, -0.7, -2]} /> */}
-        <Diamond position={[0,0,-2]} scale={[.5,.5,.5]} />
-      </Frame>
-      <Frame id="02" name="tea" author="Omar Faruq Tawsif" position={[2, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
-        {/* <Gltf src="fiesta_tea-transformed.glb" position={[0, -2, -3]} /> */}
-        <TorusKnot position={[0,0,-2]} />
-      </Frame>
-      <Frame id="03" name="still" author="Omar Faruq Tawsif" bg="#d1d1ca" position={[0, 0, -2]} rotation={[0, Math.PI, 0]}>
-        {/* <Gltf src="still_life_based_on_heathers_artwork-transformed.glb" scale={2} position={[0, -0.8, -4]} /> */}
-      </Frame>
-      <Frame id="04" name="still" author="Omar Faruq Tawsif" bg="#d1d1ca" position={[-2, 0, 0]} rotation={[0, (3 * Math.PI) / 2, 0]}>
-        {/* <Gltf src="still_life_based_on_heathers_artwork-transformed.glb" scale={2} position={[0, -0.8, -4]} /> */}
-      </Frame>
-      <SpinningHead position={[0,2,0]} rotation={[-Math.PI / 2, 0, 0]} scale={[2,2,2]}/>
-      <Grid infiniteGrid={true} position={[0,0,0]}/>
-      <Rig />
-      <Perf position="bottom-right" />
-    <Suspense />
-  </Canvas>
+  <>
+    <Canvas camera={{ fov: 75, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix="client">
+      <Suspense fallback={null} >
+        <Environment files={"/hdrs/kloofendal_43d_clear_puresky_1k.hdr"} background/>
+        <Circle position={[0,-1,0]} rotation={[-Math.PI / 2, 0,0]} scale={100}>
+          <MeshReflectorMaterial 
+            blur={[300, 100]}
+            resolution={2048}
+            mixBlur={1}
+            mixStrength={10}
+            roughness={1}
+            depthScale={1.2}
+            minDepthThreshold={1}
+            maxDepthThreshold={1.4}
+            color="#506065"
+            metalness={0.5}
+          />
+        </Circle>
+          
+        
+        
+        {/* <color attach="background" args={['#f0f0f0']} /> */}
+        <Door position={[0,0,1]}/>
+        <Frame id="01" name={`pick\nles`} author="Omar Faruq Tawsif" bg="#e4cdac" position={[0, 0, 2]} rotation={[0, 0, 0]}>
+          {/* <Gltf src="pickles_3d_version_of_hyuna_lees_illustration-transformed.glb" scale={8} position={[0, -0.7, -2]} /> */}
+          <Diamond position={[0,0,-2]} scale={[.5,.5,.5]} />
+        </Frame>
+        <Frame id="02" name="tea" author="Omar Faruq Tawsif" position={[2, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
+          {/* <Gltf src="fiesta_tea-transformed.glb" position={[0, -2, -3]} /> */}
+          <TorusKnot position={[0,0,-2]} />
+        </Frame>
+        <Frame id="03" name="still" author="Omar Faruq Tawsif" bg="#d1d1ca" position={[0, 0, -2]} rotation={[0, Math.PI, 0]}>
+          {/* <Gltf src="still_life_based_on_heathers_artwork-transformed.glb" scale={2} position={[0, -0.8, -4]} /> */}
+        </Frame>
+        <Frame id="04" name="still" author="Omar Faruq Tawsif" bg="#d1d1ca" position={[-2, 0, 0]} rotation={[0, (3 * Math.PI) / 2, 0]}>
+          {/* <Gltf src="still_life_based_on_heathers_artwork-transformed.glb" scale={2} position={[0, -0.8, -4]} /> */}
+        </Frame>
+        <SpinningHead position={[0,2,0]} rotation={[-Math.PI / 2, 0, 0]} scale={[2,2,2]}/>
+        <Grid infiniteGrid={true} position={[0,0,0]}/>
+        <Rig />
+        <Perf position="bottom-right" />
+      </Suspense >
+    </Canvas>
+    <Loader />
+  </>
 )
 
 function Frame({ id, name, author, bg, width = 1, height = 1.61803398875, children, ...props }) {
@@ -68,7 +88,7 @@ function Frame({ id, name, author, bg, width = 1, height = 1.61803398875, childr
       </Text> */}
       <mesh name={id} onDoubleClick={(e) => (e.stopPropagation(), setLocation('/item/' + e.object.name))} onPointerOver={(e) => hover(true)} onPointerOut={() => hover(false)}>
         <roundedPlaneGeometry args={[width, height, 0.1]} />
-        <MeshPortalMaterial ref={portal} events={params?.id === id}> {/* side={THREE.DoubleSide} */}
+        <MeshPortalMaterial ref={portal} events={params?.id === id}>
           <color attach="background" args={[bg]} />
           {children}
         </MeshPortalMaterial>
