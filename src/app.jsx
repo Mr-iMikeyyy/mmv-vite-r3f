@@ -33,7 +33,7 @@ export const App = () => (
             mixStrength={10}
             roughness={1}
             depthScale={1.2}
-            minDepthThreshold={1}
+            minDepthThreshold={.2}
             maxDepthThreshold={1.4}
             color="#506065"
             metalness={0.5}
@@ -43,7 +43,7 @@ export const App = () => (
         
         
         {/* <color attach="background" args={['#f0f0f0']} /> */}
-        <Door position={[0,0,1]}/>
+        <Door position={[0,-1,2]} scale={.02}/>
         <Frame id="01" name={`pick\nles`} author="Omar Faruq Tawsif" bg="#e4cdac" position={[0, 0, 2]} rotation={[0, 0, 0]}>
           {/* <Gltf src="pickles_3d_version_of_hyuna_lees_illustration-transformed.glb" scale={8} position={[0, -0.7, -2]} /> */}
           <Diamond position={[0,0,-2]} scale={[.5,.5,.5]} />
@@ -68,7 +68,7 @@ export const App = () => (
   </>
 )
 
-function Frame({ id, name, author, bg, width = 1, height = 1.61803398875, children, ...props }) {
+function Frame({ id, name, author, bg, width = 1, height = 2, children, ...props }) {
   const portal = useRef()
   const [, setLocation] = useLocation()
   const [, params] = useRoute('/item/:id')
@@ -87,7 +87,7 @@ function Frame({ id, name, author, bg, width = 1, height = 1.61803398875, childr
         {author}
       </Text> */}
       <mesh name={id} onDoubleClick={(e) => (e.stopPropagation(), setLocation('/item/' + e.object.name))} onPointerOver={(e) => hover(true)} onPointerOut={() => hover(false)}>
-        <roundedPlaneGeometry args={[width, height, 0.1]} />
+        <roundedPlaneGeometry args={[width, height, 0]} />
         <MeshPortalMaterial ref={portal} events={params?.id === id}>
           <color attach="background" args={[bg]} />
           {children}
