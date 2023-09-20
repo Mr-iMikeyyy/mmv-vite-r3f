@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, extend, useFrame, useLoader, useThree } from '@react-three/fiber'
-import { useCursor, MeshPortalMaterial, CameraControls, Gltf, Text, Stats, Grid, TorusKnot, Environment, Circle, useTexture, Loader, MeshReflectorMaterial } from '@react-three/drei'
+import { useCursor, MeshPortalMaterial, CameraControls, Gltf, Text, Stats, Grid, TorusKnot, Environment, Circle, useTexture, Loader, MeshReflectorMaterial, Sphere } from '@react-three/drei'
 import { useRoute, useLocation } from 'wouter'
 import { easing, geometry } from 'maath'
 import { suspend } from 'suspend-react'
@@ -10,6 +10,8 @@ import { Perf } from 'r3f-perf'
 import { SpinningHead } from './components/spinningHead'
 import { DoorFrame } from './components/doorFrame'
 import { RGBELoader } from 'three-stdlib'
+import { MySphere } from './components/mySphere'
+import { Butterfly1 } from './components/butterfly1'
 
 extend(geometry)
 // const regular = import('@pmndrs/assets/fonts/inter_regular.woff')
@@ -42,7 +44,11 @@ export const App = () => (
           />
         </Circle>
 
-        <SpinningHead position={[0,2,0]} rotation={[-Math.PI / 2, 0, 0]} scale={[2,2,2]}/>
+        <Butterfly1 position={[2,2,2]} scale={[.001]} />
+
+        <MySphere args={[2, 100, 100]} position={[6,2,0]} />
+
+        {/* <SpinningHead position={[0,2,0]} rotation={[-Math.PI / 2, 0, 0]} scale={[2,2,2]}/> */}
           
         <DoorFrame position={[0,-1,2]} scale={.02}/>
         <Portal id="01" name={`pick\nles`} author="Omar Faruq Tawsif" bg="#e4cdac" position={[0, -.1, 2]} rotation={[0, 0, 0]}>
