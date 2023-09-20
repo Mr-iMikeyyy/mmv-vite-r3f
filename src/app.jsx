@@ -8,7 +8,7 @@ import { suspend } from 'suspend-react'
 import { Diamond } from './components/diamond'
 import { Perf } from 'r3f-perf'
 import { SpinningHead } from './components/spinningHead'
-import { Door } from './components/door'
+import { DoorFrame } from './components/doorFrame'
 import { RGBELoader } from 'three-stdlib'
 
 extend(geometry)
@@ -24,7 +24,9 @@ export const App = () => (
   <>
     <Canvas camera={{ fov: 75, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix="client">
       <Suspense fallback={null} >
+
         <Environment files={"/hdrs/kloofendal_43d_clear_puresky_1k.hdr"} background/>
+
         <Circle position={[0,-1,0]} rotation={[-Math.PI / 2, 0,0]} scale={100}>
           <MeshReflectorMaterial 
             blur={[300, 100]}
@@ -39,27 +41,33 @@ export const App = () => (
             metalness={0.5}
           />
         </Circle>
+
+        <SpinningHead position={[0,2,0]} rotation={[-Math.PI / 2, 0, 0]} scale={[2,2,2]}/>
           
-        
-        
-        {/* <color attach="background" args={['#f0f0f0']} /> */}
-        <Door position={[0,-1,2]} scale={.02}/>
-        <Frame id="01" name={`pick\nles`} author="Omar Faruq Tawsif" bg="#e4cdac" position={[0, 0, 2]} rotation={[0, 0, 0]}>
+        <DoorFrame position={[0,-1,2]} scale={.02}/>
+        <Portal id="01" name={`pick\nles`} author="Omar Faruq Tawsif" bg="#e4cdac" position={[0, -.1, 2]} rotation={[0, 0, 0]}>
           {/* <Gltf src="pickles_3d_version_of_hyuna_lees_illustration-transformed.glb" scale={8} position={[0, -0.7, -2]} /> */}
           <Diamond position={[0,0,-2]} scale={[.5,.5,.5]} />
-        </Frame>
-        <Frame id="02" name="tea" author="Omar Faruq Tawsif" position={[2, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
+        </Portal>
+
+        <DoorFrame position={[2,-1,0]} scale={.02} rotation={[0, Math.PI / 2, 0]}/>
+        <Portal id="02" name="tea" author="Omar Faruq Tawsif" position={[2, -.1, 0]} rotation={[0, Math.PI / 2, 0]}>
           {/* <Gltf src="fiesta_tea-transformed.glb" position={[0, -2, -3]} /> */}
           <TorusKnot position={[0,0,-2]} />
-        </Frame>
-        <Frame id="03" name="still" author="Omar Faruq Tawsif" bg="#d1d1ca" position={[0, 0, -2]} rotation={[0, Math.PI, 0]}>
+        </Portal>
+
+        <DoorFrame position={[0,-1,-2]} scale={.02}/>
+        <Portal id="03" name="still" author="Omar Faruq Tawsif" bg="#d1d1ca" position={[0, -.1, -2]} rotation={[0, Math.PI, 0]}>
           {/* <Gltf src="still_life_based_on_heathers_artwork-transformed.glb" scale={2} position={[0, -0.8, -4]} /> */}
-        </Frame>
-        <Frame id="04" name="still" author="Omar Faruq Tawsif" bg="#d1d1ca" position={[-2, 0, 0]} rotation={[0, (3 * Math.PI) / 2, 0]}>
+        </Portal>
+
+        <DoorFrame position={[-2,-1,0]} scale={.02} rotation={[0, (3 * Math.PI) / 2, 0]}/>
+        <Portal id="04" name="still" author="Omar Faruq Tawsif" bg="#d1d1ca" position={[-2,-.1, 0]} rotation={[0, (3 * Math.PI) / 2, 0]}>
           {/* <Gltf src="still_life_based_on_heathers_artwork-transformed.glb" scale={2} position={[0, -0.8, -4]} /> */}
-        </Frame>
-        <SpinningHead position={[0,2,0]} rotation={[-Math.PI / 2, 0, 0]} scale={[2,2,2]}/>
-        <Grid infiniteGrid={true} position={[0,0,0]}/>
+        </Portal>
+
+        
+        {/* <Grid infiniteGrid={true} position={[0,0,0]}/> */}
         <Rig />
         <Perf position="bottom-right" />
       </Suspense >
@@ -68,7 +76,7 @@ export const App = () => (
   </>
 )
 
-function Frame({ id, name, author, bg, width = 1, height = 2, children, ...props }) {
+function Portal({ id, name, author, bg, width = 1, height = 1.8, children, ...props }) {
   const portal = useRef()
   const [, setLocation] = useLocation()
   const [, params] = useRoute('/item/:id')

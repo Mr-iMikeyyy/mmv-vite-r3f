@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 
-export function Door(props) {
+export function DoorFrame(props) {
   const { nodes, materials } = useGLTF("/models/doorFrameV2.glb");
   return (
     <group {...props} dispose={null}>
