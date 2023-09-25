@@ -12,7 +12,8 @@ import { DoorFrame } from './components/doorFrame'
 import { RGBELoader } from 'three-stdlib'
 import { MySphere } from './components/mySphere'
 import { Butterfly1 } from './components/butterfly1'
-// import { Tesseract } from './components/tesseract'
+import { PinkTree } from './components/pinkTree'
+import { PinkTree4k } from './components/pinkTree4k'
 
 extend(geometry)
 // const regular = import('@pmndrs/assets/fonts/inter_regular.woff')
@@ -28,10 +29,11 @@ export const App = () => (
     <Canvas camera={{ fov: 75, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix="client">
       <Suspense fallback={null} >
 
-        <Environment files={"/hdrs/kloofendal_43d_clear_puresky_1k.hdr"} background/>
+        <Environment files={"/hdrs/kloofendal_43d_clear_puresky_1k.hdr"} background />
+        
+
 
         <Circle position={[0,-1,0]} rotation={[-Math.PI / 2, 0,0]} scale={100}>
-
           <MeshReflectorMaterial 
             blur={[300, 100]}
             mixStrength={10}
@@ -44,13 +46,12 @@ export const App = () => (
             color="#506065"
             metalness={0.5}
           />
-
         </Circle>
 
         {/* <MySphere args={[2, 100, 100]} position={[6,2,0]} /> */}
 
         {/* <SpinningHead position={[0,2,0]} rotation={[-Math.PI / 2, 0, 0]} scale={[2,2,2]}/> */}
-          
+        <PinkTree4k position={[0,-1,0]} />
         <DoorFrame position={[0,-1,2]} scale={.02}/>
         <Portal id="01" name={`pick\nles`} author="Omar Faruq Tawsif" bg="#e4cdac" position={[0, -.1, 2]} rotation={[0, 0, 0]}>
           
@@ -69,7 +70,7 @@ export const App = () => (
 
         <DoorFrame position={[0,-1,-2]} scale={.02}/>
         <Portal id="03" name="still" author="Omar Faruq Tawsif" bg="#d1d1ca" position={[0, -.1, -2]} rotation={[0, Math.PI, 0]}>
-          {/* <Tesseract /> */}
+        
         </Portal>
 
         <DoorFrame position={[-2,-1,0]} scale={.02} rotation={[0, (3 * Math.PI) / 2, 0]}/>
