@@ -11,9 +11,9 @@ import { SpinningHead } from './components/spinningHead'
 import { DoorFrame } from './components/doorFrame'
 import { RGBELoader } from 'three-stdlib'
 import { MySphere } from './components/mySphere'
-import { Butterfly1 } from './components/butterfly1'
 import { PinkTree } from './components/pinkTree'
 import { PinkTree4k } from './components/pinkTree4k'
+import { FloatingPetals } from './components/floatingPetals'
 
 extend(geometry)
 // const regular = import('@pmndrs/assets/fonts/inter_regular.woff')
@@ -26,18 +26,20 @@ extend(geometry)
 
 export const App = () => (
   <>
-    <Canvas camera={{ fov: 75, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix="client">
+    <Canvas camera={{ fov: 75, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix="client" shadows={"soft"}>
       <Suspense fallback={null} >
 
         <Environment files={"/hdrs/kloofendal_43d_clear_puresky_1k.hdr"} background />
+        <FloatingPetals count={50} />
         
 
 
-        <Circle position={[0,-1,0]} rotation={[-Math.PI / 2, 0,0]} scale={100}>
+        <Circle position={[0,-1,0]} rotation={[-Math.PI / 2, 0,0]} scale={100} receiveShadow>
+          <meshBasicMaterial ></meshBasicMaterial>
           <MeshReflectorMaterial 
             blur={[300, 100]}
             mixStrength={10}
-            resolution={2048}
+            resolution={512}
             mixBlur={1}
             roughness={1}
             depthScale={1.2}
