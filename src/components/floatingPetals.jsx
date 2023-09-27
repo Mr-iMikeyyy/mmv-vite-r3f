@@ -35,16 +35,17 @@ function Dummy({ id, object, ...props }) {
 
 function Petal(props) {
     const { nodes, materials } = useGLTF("/models/cherry_blossom_petal.glb");
+    const ref = useRef()
     return (
-      <group {...props} dispose={null}>
         <mesh
           castShadow
           receiveShadow
           geometry={nodes.Object_4.geometry}
           material={materials.SakuraHanaBira}
           rotation={[Math.PI / 2, 0, 0]}
+          ref={ref}
+          // args={[nodes.Object_4.geometry,materials.SakuraHanaBira,props.count]}
         />
-      </group>
     );
 }
   
@@ -56,7 +57,9 @@ function Petals({ count = 10, objects }) {
         <Instances range={count}>
             {/* <boxGeometry args={[]} castShadow={true} />
             <meshStandardMaterial color="red" /> */}
-            <Petal />
+            <Petal count={count}/>
+            
+            
             {objects.map((obj, i) => (
                 <Dummy key={i} id={i} object={obj} />
             ))}
