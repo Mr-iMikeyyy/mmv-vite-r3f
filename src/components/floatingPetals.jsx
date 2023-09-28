@@ -34,9 +34,11 @@ function Dummy({ id, object, ...props }) {
 }
 
 function Petal(props) {
-    const { nodes, materials } = useGLTF("/models/cherry_blossom_petal.glb");
+    const { nodes, materials } = useGLTF("/models/cherry_blossom_petal.glb", true);
+    const geo = nodes.Object_4.geometry.clone()
     const ref = useRef()
     return (
+
         <mesh
           castShadow
           receiveShadow
@@ -54,10 +56,10 @@ useGLTF.preload("/models/cherry_blossom_petal.glb");
 function Petals({ count = 10, objects }) {
     return (
       <group>
-        <Instances range={count}>
+        <Instances limit={count} castShadow receiveShadow>
             {/* <boxGeometry args={[]} castShadow={true} />
             <meshStandardMaterial color="red" /> */}
-            <Petal count={count}/>
+            <Petal />
             
             
             {objects.map((obj, i) => (

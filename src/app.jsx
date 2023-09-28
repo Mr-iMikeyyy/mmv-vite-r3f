@@ -14,6 +14,7 @@ import { MySphere } from './components/mySphere'
 import { PinkTree } from './components/pinkTree'
 import { PinkTree4k } from './components/pinkTree4k'
 import { FloatingPetals } from './components/floatingPetals'
+import { PetalSwarm } from './components/floatingPetalRework'
 
 extend(geometry)
 // const regular = import('@pmndrs/assets/fonts/inter_regular.woff')
@@ -31,6 +32,7 @@ export const App = () => (
 
         <Environment files={"/hdrs/kloofendal_43d_clear_puresky_1k.hdr"} background />
         <FloatingPetals count={50} />
+        {/* <PetalSwarm count={50} /> */}
         
 
 
