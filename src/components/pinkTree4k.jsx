@@ -22,6 +22,7 @@ export function PinkTree4k(props) {
                 material={materials.Leaves}
                 skeleton={nodes.Leaves_0.skeleton}
                 castShadow
+                receiveShadow
               />
               <skinnedMesh
                 name="Trunk_0"
@@ -29,6 +30,7 @@ export function PinkTree4k(props) {
                 material={materials.Trunk}
                 skeleton={nodes.Trunk_0.skeleton}
                 castShadow
+                receiveShadow
               />
             </group>
           </group>

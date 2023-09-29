@@ -15,13 +15,18 @@ import { PinkTree } from './components/pinkTree'
 import { PinkTree4k } from './components/pinkTree4k'
 import { FloatingPetals } from './components/floatingPetals'
 import { PetalSwarm } from './components/floatingPetalRework'
+import { MainTree } from './components/mainTree'
+import { DepthOfField } from '@react-three/postprocessing'
 
 extend(geometry)
 // const regular = import('@pmndrs/assets/fonts/inter_regular.woff')
 // const medium = import('@pmndrs/assets/fonts/inter_medium.woff')
 
 
-
+function DegToRad(deg) {
+  const rad = deg * (Math.PI / 180)
+  return rad
+}
 
 
 
@@ -31,13 +36,13 @@ export const App = () => (
       <Suspense fallback={null} >
 
         <Environment files={"/hdrs/kloofendal_43d_clear_puresky_1k.hdr"} background />
-        <FloatingPetals count={50} />
+        {/* <FloatingPetals count={50} /> */}
         {/* <PetalSwarm count={50} /> */}
+        <MainTree position={[0,-1.2,0]} scale={.8} rotation={[0,DegToRad(132),0]}/>
         
 
 
         <Circle position={[0,-1,0]} rotation={[-Math.PI / 2, 0,0]} scale={100} receiveShadow>
-          <meshBasicMaterial ></meshBasicMaterial>
           <MeshReflectorMaterial 
             blur={[300, 100]}
             mixStrength={10}
@@ -55,7 +60,7 @@ export const App = () => (
         {/* <MySphere args={[2, 100, 100]} position={[6,2,0]} /> */}
 
         {/* <SpinningHead position={[0,2,0]} rotation={[-Math.PI / 2, 0, 0]} scale={[2,2,2]}/> */}
-        <PinkTree4k position={[0,-1,0]} />
+        {/* <PinkTree4k position={[0,-1,0]} /> */}
         <DoorFrame position={[0,-1,2]} scale={.02}/>
         <Portal id="01" name={`pick\nles`} author="Omar Faruq Tawsif" bg="#e4cdac" position={[0, -.1, 2]} rotation={[0, 0, 0]}>
           
@@ -87,6 +92,7 @@ export const App = () => (
         <Rig />
         <Perf position="bottom-right" />
       </Suspense >
+      
     </Canvas>
     <Loader />
   </>
