@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 
 export function MainTree(props) {
-  const { nodes, materials } = useGLTF("/models/mainTree.glb");
+  const { nodes, materials } = useGLTF("/models/mainTree4.glb");
   materials["bark-21-252072635"].metalness = 0
   materials["leaf-26-fall-1"].metalness = 0
   materials["bark-21-252072635"].normalMap = null
@@ -32,4 +32,4 @@ export function MainTree(props) {
   );
 }
 
-useGLTF.preload("/models/mainTree.glb");
+useGLTF.preload("/models/mainTree4.glb");

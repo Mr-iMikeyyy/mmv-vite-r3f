@@ -16,7 +16,7 @@ import { PinkTree4k } from './components/pinkTree4k'
 import { FloatingPetals } from './components/floatingPetals'
 import { PetalSwarm } from './components/floatingPetalRework'
 import { MainTree } from './components/mainTree'
-import { DepthOfField } from '@react-three/postprocessing'
+import { EffectComposer, Bloom, DepthOfField, Noise, Vignette } from '@react-three/postprocessing'
 
 extend(geometry)
 // const regular = import('@pmndrs/assets/fonts/inter_regular.woff')
@@ -38,7 +38,9 @@ export const App = () => (
         <Environment files={"/hdrs/kloofendal_43d_clear_puresky_1k.hdr"} background />
         {/* <FloatingPetals count={50} /> */}
         {/* <PetalSwarm count={50} /> */}
-        <MainTree position={[0,-1.2,0]} scale={.8} rotation={[0,DegToRad(132),0]}/>
+        <MainTree position={[0,-1.2,0]} scale={.8} rotation={[0,DegToRad(90),0]}/>
+
+        <PetalSwarm count={50}/>
         
 
 
@@ -92,7 +94,12 @@ export const App = () => (
         <Rig />
         <Perf position="bottom-right" />
       </Suspense >
-      
+      <EffectComposer>
+        <DepthOfField focusDistance={.004} focalLength={.005} bokehScale={2} height={480} />
+        <Bloom luminanceThreshold={2} luminanceSmoothing={0.9} height={300} />
+        <Noise opacity={0.02} />
+        <Vignette eskil={false} offset={0.1} darkness={0.5} />
+      </EffectComposer>
     </Canvas>
     <Loader />
   </>
