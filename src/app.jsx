@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, extend, useFrame, useLoader, useThree } from '@react-three/fiber'
-import { useCursor, MeshPortalMaterial, CameraControls, Gltf, Text, Stats, Grid, TorusKnot, Environment, Circle, useTexture, Loader, MeshReflectorMaterial, Sphere, MeshDistortMaterial } from '@react-three/drei'
+import { useCursor, MeshPortalMaterial, CameraControls, Gltf, Text, Stats, Grid, TorusKnot, Environment, Circle, useTexture, Loader, MeshReflectorMaterial, Sphere, MeshDistortMaterial, Box, MeshWobbleMaterial } from '@react-three/drei'
 import { useRoute, useLocation } from 'wouter'
 import { easing, geometry } from 'maath'
 import { suspend } from 'suspend-react'
@@ -14,9 +14,10 @@ import { MySphere } from './components/mySphere'
 import { PinkTree } from './components/pinkTree'
 import { PinkTree4k } from './components/pinkTree4k'
 import { FloatingPetals } from './components/floatingPetals'
-import { PetalSwarm } from './components/floatingPetalRework'
+import { PetalSwarm } from './components/petalSwarm'
 import { MainTree } from './components/mainTree'
 import { EffectComposer, Bloom, DepthOfField, Noise, Vignette } from '@react-three/postprocessing'
+import HomeTerrain from './components/homeTerrain'
 
 extend(geometry)
 // const regular = import('@pmndrs/assets/fonts/inter_regular.woff')
@@ -32,7 +33,7 @@ function DegToRad(deg) {
 
 export const App = () => (
   <>
-    <Canvas camera={{ fov: 75, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix="client" shadows={"soft"}>
+    <Canvas camera={{ fov: 90, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix={"client"} shadows={"soft"}>
       <Suspense fallback={null} >
 
         <Environment files={"/hdrs/kloofendal_43d_clear_puresky_1k.hdr"} background />
@@ -40,15 +41,20 @@ export const App = () => (
         {/* <PetalSwarm count={50} /> */}
         <MainTree position={[0,-1.2,0]} scale={.8} rotation={[0,DegToRad(90),0]}/>
 
-        <PetalSwarm count={50}/>
+        <PetalSwarm count={10000}/>
+        <Box args={[1,1,1]} position={[2,0,2]}>
+          <MeshWobbleMaterial speed={2} factor={1} color={"orange"}/>
+        </Box>
         
+        <HomeTerrain />
 
+        {/* <pointLight position={[2,2,2]} intensity={10} castShadow /> */}
 
-        <Circle position={[0,-1,0]} rotation={[-Math.PI / 2, 0,0]} scale={100} receiveShadow>
+        <Circle position={[0,-1,0]} rotation={[-Math.PI / 2, 0,0]} scale={100} >
           <MeshReflectorMaterial 
             blur={[300, 100]}
             mixStrength={10}
-            resolution={512}
+            resolution={1024}
             mixBlur={1}
             roughness={1}
             depthScale={1.2}
@@ -57,6 +63,7 @@ export const App = () => (
             color="#506065"
             metalness={0.5}
           />
+          
         </Circle>
 
         {/* <MySphere args={[2, 100, 100]} position={[6,2,0]} /> */}

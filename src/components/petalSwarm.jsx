@@ -1,23 +1,23 @@
 import React, { Suspense, useRef, useState, useLayoutEffect, useEffect, useMemo } from "react";
 import { Canvas, useLoader, useFrame } from "@react-three/fiber";
-import { OrthographicCamera, OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 
 export function PetalSwarm({ count, dummy = new THREE.Object3D() }) {
     const mesh = useRef()
 
-    const color = useLoader(THREE.TextureLoader, "/textures/bark-21.jpg")
+    const color = useLoader(THREE.TextureLoader, "/textures/petal/petal_color.jpg")
+    const mask = useLoader(THREE.TextureLoader, "/textures/petal/petal_alpha.jpg")
 
     const particles = useMemo(() => {
         const temp = []
         for (let i = 0; i < count; i++) {
             const t = Math.random() * 100
             const factor = 20 + Math.random() * 100
-            const speed = 0.01 + Math.random() / 200
-            const xFactor = -50 + Math.random() * 100
+            const speed = 0.01 + Math.random() / 20000000
+            const xFactor = 1
             const yFactor = -50 + Math.random() * 100
-            const zFactor = -50 + Math.random() * 100
+            const zFactor = 1
             temp.push({ t, factor, speed, xFactor, yFactor, zFactor, mx: 0, my: 0 })
         }
         return temp
@@ -37,8 +37,8 @@ export function PetalSwarm({ count, dummy = new THREE.Object3D() }) {
                 (particle.my / 10) * b + yFactor + Math.sin((t / 10) * factor) + (Math.cos(t * 2) * factor) / 10,
                 (particle.my / 10) * b + zFactor + Math.cos((t / 10) * factor) + (Math.sin(t * 3) * factor) / 10
             )
-            dummy.scale.setScalar(s)
-            dummy.rotation.set(s * 5, s * 5, s * 5)
+            dummy.scale.setScalar(.1)
+            dummy.rotation.set(s * 20, s * 20 - 180, s * 20)
             dummy.updateMatrix()
             mesh.current.setMatrixAt(i, dummy.matrix)
         })
@@ -47,8 +47,8 @@ export function PetalSwarm({ count, dummy = new THREE.Object3D() }) {
     return (
         <>
             <instancedMesh ref={mesh} args={[null, null, count]}>
-                <planeGeometry args={[10,10]} />
-                <meshStandardMaterial map={color} />
+                <planeGeometry args={[1,1]} />
+                <meshStandardMaterial map={color} alphaMap={mask} side={THREE.DoubleSide} transparent />
             </instancedMesh>
         </>
     )
