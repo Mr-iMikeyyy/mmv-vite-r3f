@@ -51,7 +51,7 @@ void main() {
 		mvPosition = instanceMatrix * mvPosition;
 	#endif
 	
-	// DISPLACEMENT
+	// DISPLACEMENT Z //
 	
 	float noise = smoothNoise(mvPosition.xz * 0.5 + vec2(0., t));
 	noise = pow(noise * 0.5 + 0.5, 2.) * 2.;
@@ -62,7 +62,19 @@ void main() {
 	float displacement = noise * ( 0.3 * dispPower );
 	mvPosition.z += displacement * noise;
 
+  // DISPLACEMENT X //
+
+  float noise2 = smoothNoise(mvPosition.xz * 0.25 + vec2(0., t));
+	noise2 = pow(noise2 * 0.5 + 0.5, 2.) * 2.;
 	
+	// here the displacement is made stronger on the blades tips. //
+	float dispPower2 = 1. - cos( uv.y * 3.1416 * 0.10 );
+	
+	float displacement2 = noise2 * ( 0.3 * dispPower2 );
+	mvPosition.x += displacement2 * noise2;
+
+	// SET INSTANCE
+
 	vec4 modelViewPosition = modelViewMatrix * mvPosition;
 	gl_Position = projectionMatrix * modelViewPosition;
 
@@ -169,7 +181,7 @@ const HomeTerrain = (props) => {
   useFrame(({ clock }) => {
     grassMaterial.uniforms.time.value = clock.getElapsedTime();
     grassMaterial.uniformsNeedUpdate = true;
-    grassMaterial.uniforms.textureMap.value = texture;
+    // grassMaterial.uniforms.textureMap.value = texture;
   });
   return (
     <>
@@ -188,6 +200,6 @@ const HomeTerrain = (props) => {
   );
 };
 
-useGLTF.preload("/models/homeTerrainMeshSmall.glb")
+useGLTF.preload("/models/homeTerrainMeshLarge.glb")
 
 export default HomeTerrain;

@@ -62,6 +62,7 @@ export const App = () => (
             maxDepthThreshold={1.4}
             color="#506065"
             metalness={0.5}
+            transparent
           />
           
         </Circle>
