@@ -33,7 +33,7 @@ function DegToRad(deg) {
 
 export const App = () => (
   <>
-    <Canvas camera={{ fov: 90, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix={"client"} shadows={"soft"}>
+    <Canvas camera={{ fov: 90, position: [0, 0, 20] }} eventSource={document.getElementById('root')} eventPrefix={"client"} shadows={"soft"} >
       <Suspense fallback={null} >
 
         <Environment files={"/hdrs/kloofendal_43d_clear_puresky_1k.hdr"} background />
@@ -51,7 +51,7 @@ export const App = () => (
         {/* <pointLight position={[2,2,2]} intensity={10} castShadow /> */}
 
         <Circle position={[0,-1,0]} rotation={[-Math.PI / 2, 0,0]} scale={100} >
-          <MeshReflectorMaterial 
+          {/* <MeshReflectorMaterial 
             blur={[300, 100]}
             mixStrength={10}
             resolution={1024}
@@ -63,7 +63,7 @@ export const App = () => (
             color="#506065"
             metalness={0.5}
             transparent
-          />
+          /> */}
           
         </Circle>
 
